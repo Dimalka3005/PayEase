@@ -91,8 +91,8 @@ for (let i = 0; i < localStorage.length; i++) {
     const empObj = JSON.parse(empData);
     document.getElementById('empListBody').innerHTML += `
         <tr>
-            <td class="text-center">${empObj.id}</td>
-            <td class="text-center">${empObj.name}</td>
+            <td>${empObj.id}</td>
+            <td>${empObj.name}</td>
         </tr>
     `;
 }
