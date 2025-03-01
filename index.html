@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Salary Calculator</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+
+<body class="bg-dark" onload="hidSeDis(); hidSalCalDis(); hidEmpSeAndSalCal(); HidNeEmpSav();">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Simple Salary Calculator</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse ms-5" id="navbarNav">
+                <ul class="navbar-nav gap-3">
+                    <li class="btn btn-outline-primary">
+                        <button class="nav-link active" aria-current="page" onclick="showDashboard();">Dashboard</button>
+                    </li>
+                    <li class="btn btn-outline-primary">
+                        <button class="nav-link" aria-current="page" onclick="showNeEmpSav();" >Employee</button>
+                    </li>
+                    <li class="btn btn-outline-primary">
+                        <button class="nav-link" onclick="showEmpSeAndSalCal();" >Salary</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mt-5">
+
+        <div class="card mt-3 border-3 text-white" id="Dashboard">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title text-center">Dashboard</h2>
+            </div>
+            <div class="card-body bg-dark">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Employees</h5>
+                                <p class="card-text" id="totalEmp">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 col-md-12">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Employees List</h5>
+                                <h6 class="card-text" id="empList">
+                                    <table class=" mt-4 table table-striped">
+                                        <thead class="bg-primary text-white">
+                                            <tr>
+                                                <th class="text-center">Employee ID</th>
+                                                <th class="text-center">Employee Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="empListBody"></tbody>
+                                    </table>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Employee Details -->
+        <div class="card mt-3 border-3 text-white" id="NeEmpSav">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title text-center">Add New Employee</h2>
+            </div>
+            <div class="card-body bg-dark">
+                <form id="employeeForm">
+                    <div class="mb-3">
+                        <label for="empId" class="form-label">Employee Id</label>
+                        <input type="text" name="empId" id="empId" class="form-control" placeholder="Enter Employee ID"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="empName" class="form-label">Employee Name</label>
+                        <input type="text" name="empName" id="empName" class="form-control"
+                            placeholder="Enter Employee Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="basicSalary" class="form-label">Basic Salary</label>
+                        <input type="text" name="basicSalary" id="basicSalary" class="form-control"
+                            placeholder="Enter Basic Salary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="otRate" class="form-label">OT Rate (Per Hour)</label>
+                        <input type="text" name="otRate" id="otRate" class="form-control" placeholder="Enter OT Rate"
+                            required>
+                    </div>
+                    <div class="mt-4 mb-3">
+                        <button onclick="clearEmpFormData();" type="submit"
+                            class="btn btn-outline-primary mt-4">Clear</button>
+                        <button type="submit" class="btn btn-primary mt-4">Save Employee</button>
+                    </div>
+                    <div class="mt-3" id="saveAlert"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Search Employee -->
+        <div class="card mt-3 border-3 text-white" id="EmpSeAndSalCal">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title text-center">Search Employee and Calculate Salary</h2>
+            </div>
+            <div class="card-body bg-dark">
+                <div class="mt-1">
+                    <label for="searchEmpId" class="form-label">Employee Id</label>
+                    <input type="text" name="searchEmpId" id="searchEmpId" class="form-control"
+                        placeholder="Enter Employee ID" required>
+                </div>
+                <div class="mt-1">
+                    <button onclick="clearSearchData();" type="submit"
+                        class="btn btn-outline-primary mt-4">Clear</button>
+                    <button onclick="searchEmployee();" type="submit" class="btn btn-primary mt-4">Search
+                        Employee</button>
+                </div>
+
+                <div class="mt-3" id="WarAlert"></div>
+
+                <div class="output card mt-3 mb-4 border-4 border-warning text-white" id="emp_output">
+                    <div class="card-body bg-dark text-warning fw-normal " id="SeResult">
+
+                    </div>
+                </div>
+
+                <!-- Calculate Salary -->
+                <div id="salaryCalculate">
+                    <div class="mt-4">
+                        <label for="otHours" class="form-label">OT Hours</label>
+                        <input type="text" name="otHours" id="otHours" class="form-control"
+                            placeholder="Enter OT Hours">
+                    </div>
+                    <div class="mt-4">
+                        <label for="Decuction" class="form-label">Deduction</label>
+                        <input type="text" name="deduction" id="deduction" class="form-control"
+                            placeholder="Enter Deduction">
+                    </div>
+                    <div class="mt-4">
+                        <button onclick="clearSalData();" type="clear"
+                            class="btn btn-outline-primary mt-4">Clear</button>
+                        <button onclick="salCal();" type="submit" class="btn btn-primary mt-4">Calculate Salary</button>
+                    </div>
+                    <div class="mt-3" id="WarAlertforCal"></div>
+                    <div class="output card mt-3 mb-4 border-4 border-warning text-white" id="sal_output">
+                        <div class="card-body bg-dark text-warning fw-normal " id="salResult"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
